@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoPrep — UPSC Geography Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0C0E14; --bg2:#12151E; --bg3:#181C28; --bg4:#1E2333; --bg5:#252A3C;
+  --border:rgba(255,255,255,0.06); --border2:rgba(255,255,255,0.11); --border3:rgba(255,255,255,0.18);
+  --text:#E6E9F2; --text2:#8892AA; --text3:#4E566A; --text4:#2E3447;
+  --blue:#4F7CFF; --blue2:rgba(79,124,255,0.15); --blue3:rgba(79,124,255,0.08);
+  --violet:#7B5CF5; --gold:#E8B84B; --gold2:rgba(232,184,75,0.12);
+  --teal:#3ECFB2; --teal2:rgba(62,207,178,0.1);
+  --coral:#FF6B6B; --coral2:rgba(255,107,107,0.1);
+  --green:#4CAF7D; --green2:rgba(76,175,125,0.1);
+  --amber:#F59E0B; --pink:#EC4899;
+  --r:8px; --r2:14px; --r3:20px;
+  --fd:'Fraunces',serif; --fb:'Sora',sans-serif; --fm:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:14px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);height:100vh;overflow:hidden;display:flex;}
+
+/* ──────── SIDEBAR ──────── */
+.sb{width:214px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none;}
+.sb::-webkit-scrollbar{display:none;}
+.sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);}
+.logo-t{font-family:var(--fd);font-size:19px;font-weight:400;color:var(--gold);letter-spacing:-0.3px;}
+.logo-s{font-size:9px;color:var(--text3);letter-spacing:.14em;text-transform:uppercase;font-family:var(--fm);margin-top:2px;}
+.nav-s{padding:12px 10px 4px;}
+.nav-lbl{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);font-family:var(--fm);padding:0 8px;margin-bottom:3px;}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--r);cursor:pointer;font-size:12.5px;color:var(--text2);transition:all .15s;border:1px solid transparent;margin-bottom:1px;position:relative;}
+.ni:hover{background:var(--bg3);color:var(--text);}
+.ni.on{background:var(--blue3);color:var(--blue);border-color:rgba(79,124,255,.18);}
+.ni svg{width:15px;height:15px;flex-shrink:0;opacity:.85;}
+.nb{margin-left:auto;font-size:8.5px;background:var(--blue);color:#fff;padding:1px 5px;border-radius:7px;font-family:var(--fm);}
+.nb.gold{background:var(--gold);color:#0C0E14;}
+.sb-foot{margin-top:auto;padding:12px 10px;border-top:1px solid var(--border);}
+.up{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:var(--r);cursor:pointer;transition:background .15s;}
+.up:hover{background:var(--bg3);}
+.av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0;}
+.un{font-size:12px;font-weight:500;color:var(--text);}
+.um{font-size:10px;color:var(--text3);margin-top:1px;}
+.streak{margin-left:auto;display:flex;align-items:center;gap:3px;font-size:10.5px;color:var(--gold);font-family:var(--fm);background:rgba(232,184,75,.1);padding:2px 7px;border-radius:12px;border:1px solid rgba(232,184,75,.2);}
+
+/* ──────── MAIN ──────── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{display:flex;align-items:center;gap:12px;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
+.pg-title{font-family:var(--fd);font-size:22px;font-weight:300;letter-spacing:-.4px;}
+.pg-title span{color:var(--gold);}
+.pg-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+.tb-right{display:flex;align-items:center;gap:9px;margin-left:auto;}
+.search{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:7px 11px;width:200px;transition:border-color .2s;}
+.search:focus-within{border-color:var(--border2);}
+.search input{background:none;border:none;outline:none;font-family:var(--fb);font-size:12px;color:var(--text);width:100%;}
+.search input::placeholder{color:var(--text3);}
+.ib{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--text2);cursor:pointer;transition:all .15s;}
+.ib:hover{background:var(--bg4);color:var(--text);}
+.content{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--bg5) transparent;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px;}
+
+/* ──────── VIEWS ──────── */
+.view{display:none;padding:22px 24px 40px;animation:fi .2s ease;}
+.view.on{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* ──────── CARDS & PANELS ──────── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);}
+.pt{font-size:12.5px;font-weight:500;color:var(--text);}
+.pa{font-size:11px;color:var(--blue);cursor:pointer;}
+.pa:hover{text-decoration:underline;}
+.pb{padding:14px 18px;}
+
+/* ──────── GRID HELPERS ──────── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;}
+.gcol{display:grid;grid-template-columns:1fr 310px;gap:14px;}
+.gcol2{display:grid;grid-template-columns:1fr 270px;gap:14px;}
+.col{display:flex;flex-direction:column;gap:13px;}
+
+/* ──────── STAT CARDS ──────── */
+.sc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;cursor:pointer;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;}
+.sc:hover{border-color:var(--border2);transform:translateY(-1px);}
+.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.sc.bl::after{background:var(--blue);}
+.sc.go::after{background:var(--gold);}
+.sc.te::after{background:var(--teal);}
+.sc.co::after{background:var(--coral);}
+.sc.gr::after{background:var(--green);}
+.sl{font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-family:var(--fm);margin-bottom:8px;}
+.sv{font-family:var(--fd);font-size:30px;font-weight:400;line-height:1;margin-bottom:5px;}
+.sc.bl .sv{color:var(--blue);}
+.sc.go .sv{color:var(--gold);}
+.sc.te .sv{color:var(--teal);}
+.sc.co .sv{color:var(--coral);}
+.sc.gr .sv{color:var(--green);}
+.sd{font-size:10.5px;color:var(--text3);}
+.sd b{color:var(--green);font-weight:500;}
+
+/* ──────── BUTTONS ──────── */
+.btn{padding:8px 16px;border-radius:var(--r);font-family:var(--fb);font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s;border:1px solid;display:inline-flex;align-items:center;gap:7px;}
+.btn-p{background:var(--blue);border-color:var(--blue);color:#fff;}
+.btn-p:hover{opacity:.85;}
+.btn-g{background:transparent;border-color:var(--border2);color:var(--text2);}
+.btn-g:hover{background:var(--bg3);color:var(--text);}
+.btn-gold{background:rgba(232,184,75,.12);border-color:rgba(232,184,75,.3);color:var(--gold);}
+.btn-gold:hover{background:rgba(232,184,75,.2);}
+.btn-teal{background:var(--teal2);border-color:rgba(62,207,178,.3);color:var(--teal);}
+
+/* ──────── CHIPS / TAGS ──────── */
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:7px;font-family:var(--fm);border:1px solid var(--border);color:var(--text2);}
+.chip.bl{background:var(--blue3);border-color:rgba(79,124,255,.2);color:var(--blue);}
+.chip.go{background:var(--gold2);border-color:rgba(232,184,75,.2);color:var(--gold);}
+.chip.te{background:var(--teal2);border-color:rgba(62,207,178,.2);color:var(--teal);}
+.chip.co{background:var(--coral2);border-color:rgba(255,107,107,.2);color:var(--coral);}
+.chip.gr{background:var(--green2);border-color:rgba(76,175,125,.2);color:var(--green);}
+.chip.vi{background:rgba(123,92,245,.1);border-color:rgba(123,92,245,.2);color:var(--violet);}
+
+/* ──────── TOPIC ROW ──────── */
+.tr{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .15s;}
+.tr:last-child{border-bottom:none;}
+.tr:hover{opacity:.8;}
+.td{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.tn{font-size:12.5px;color:var(--text);flex:1;}
+.tbw{width:76px;height:3.5px;background:var(--bg4);border-radius:2px;flex-shrink:0;}
+.tb{height:100%;border-radius:2px;transition:width .6s ease;}
+.tp{font-size:10.5px;color:var(--text2);font-family:var(--fm);width:26px;text-align:right;flex-shrink:0;}
+
+/* ──────── MCQ ──────── */
+.mcq-q{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:18px;}
+.opts{display:flex;flex-direction:column;gap:7px;}
+.opt{display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:var(--r);border:1px solid var(--border);cursor:pointer;transition:all .15s;font-size:12.5px;color:var(--text2);}
+.opt:hover{border-color:var(--blue);background:var(--blue3);color:var(--text);}
+.opt.sel{border-color:var(--blue);background:var(--blue3);color:var(--text);}
+.opt.ok{border-color:var(--green);background:var(--green2);color:var(--green);}
+.opt.bad{border-color:var(--coral);background:var(--coral2);color:var(--coral);}
+.ol{width:20px;height:20px;border-radius:5px;background:var(--bg4);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:10px;flex-shrink:0;}
+.exp{margin-top:13px;padding:13px 15px;background:var(--bg4);border-radius:var(--r);border-left:3px solid var(--green);font-size:12.5px;color:var(--text2);line-height:1.65;display:none;}
+.exp.on{display:block;}
+.exp b{color:var(--text);font-weight:500;}
+
+/* ──────── ANSWER WRITING ──────── */
+.aw-wrap{display:grid;grid-template-columns:1fr 300px;gap:14px;}
+.aw-ed{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);display:flex;flex-direction:column;overflow:hidden;}
+.aw-tb{display:flex;align-items:center;gap:7px;padding:9px 15px;border-bottom:1px solid var(--border);background:var(--bg3);}
+.aw-q-box{padding:16px 18px;border-bottom:1px solid var(--border);background:rgba(79,124,255,.04);}
+.aw-ql{font-size:9.5px;color:var(--blue);font-family:var(--fm);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+.aw-qt{font-size:13.5px;color:var(--text);line-height:1.65;}
+.aw-ta{width:100%;min-height:260px;background:none;border:none;outline:none;font-family:var(--fb);font-size:13.5px;color:var(--text);line-height:1.85;padding:18px;resize:none;}
+.aw-ta::placeholder{color:var(--text3);}
+.aw-ft{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-top:1px solid var(--border);background:var(--bg3);}
+.wc{font-size:11px;font-family:var(--fm);color:var(--text3);}
+.wc b{color:var(--text2);}
+
+/* AI EVAL PANEL */
+.eval-panel{display:flex;flex-direction:column;gap:11px;}
+.rub{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:15px;}
+.rub-t{font-size:12px;font-weight:500;color:var(--text);margin-bottom:11px;}
+.ri{margin-bottom:9px;}
+.ri:last-child{margin-bottom:0;}
+.rl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--text2);margin-bottom:3px;}
+.rbw{height:3.5px;background:var(--bg4);border-radius:2px;}
+.rb{height:100%;border-radius:2px;transition:width .7s ease;}
+.ai-btn{width:100%;padding:11px;background:linear-gradient(135deg,rgba(79,124,255,.18),rgba(123,92,245,.18));border:1px solid rgba(79,124,255,.28);border-radius:var(--r);color:var(--blue);font-family:var(--fb);font-size:12.5px;font-weight:500;cursor:pointer;transition:all .2s;}
+.ai-btn:hover{background:linear-gradient(135deg,rgba(79,124,255,.28),rgba(123,92,245,.28));}
+.ai-btn:disabled{opacity:.5;cursor:default;}
+
+/* ──────── MAP ──────── */
+.map-wrap{position:relative;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:crosshair;}
+.map-tip{position:absolute;pointer-events:none;background:rgba(18,21,30,.96);border:1px solid var(--border2);border-radius:var(--r);padding:9px 13px;font-size:11.5px;z-index:20;display:none;max-width:200px;}
+.map-tip.on{display:block;}
+.tip-n{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.tip-m{font-size:10.5px;color:var(--text3);}
+.map-ctrl{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:5px;z-index:10;}
+.mc{width:30px;height:30px;background:rgba(18,21,30,.9);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s;}
+.mc:hover{background:var(--bg3);color:var(--text);}
+.layer-bar{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
+
+/* ──────── REGION INFO ──────── */
+.ri-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;}
+.ri-head{padding:16px 18px 12px;}
+.ri-name{font-family:var(--fd);font-size:17px;font-weight:400;margin-bottom:3px;}
+.ri-sub{font-size:11px;color:var(--text3);}
+.ri-body{padding:0 18px 16px;}
+.ri-sec{margin-bottom:13px;}
+.ri-sec-t{font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-family:var(--fm);color:var(--text3);margin-bottom:6px;}
+.ri-fact{font-size:12px;color:var(--text2);line-height:1.6;}
+.pyq-item{padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.5;}
+.pyq-item:last-child{border-bottom:none;}
+.pyq-yr{font-size:10px;font-family:var(--fm);color:var(--gold);margin-bottom:2px;}
+
+/* ──────── CURRENT AFFAIRS ──────── */
+.ca-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:15px 18px;cursor:pointer;transition:border-color .2s;margin-bottom:9px;}
+.ca-card:hover{border-color:var(--border2);}
+.ca-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;}
+.ca-badge{font-size:9px;padding:2px 7px;border-radius:5px;font-family:var(--fm);flex-shrink:0;margin-top:2px;}
+.ca-title{font-size:13px;color:var(--text);line-height:1.5;}
+.ca-link{font-size:11px;color:var(--text3);margin-top:4px;}
+.ca-link span{color:var(--blue);}
+.ca-date{font-size:10px;font-family:var(--fm);color:var(--text3);margin-top:6px;}
+.ca-expand{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.ca-expand.on{display:block;}
+.ca-detail{font-size:12.5px;color:var(--text2);line-height:1.7;}
+
+/* ──────── PYQ BANK ──────── */
+.pyq-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.pf{padding:5px 12px;border-radius:20px;font-size:11.5px;cursor:pointer;border:1px solid var(--border);color:var(--text2);transition:all .15s;}
+.pf:hover{background:var(--bg3);color:var(--text);}
+.pf.on{background:var(--blue3);border-color:rgba(79,124,255,.3);color:var(--blue);}
+.pyq-full{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:border-color .2s;}
+.pyq-full:hover{border-color:var(--border2);}
+.pq-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.pq-text{font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:10px;}
+.pq-footer{display:flex;align-items:center;gap:8px;}
+
+/* ──────── TEACHER STUDIO ──────── */
+.ts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.ts-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:18px;cursor:pointer;transition:all .2s;}
+.ts-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.ts-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.ts-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;}
+.ts-sub{font-size:11px;color:var(--text3);line-height:1.5;}
+.student-row{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border);}
+.student-row:last-child{border-bottom:none;}
+.student-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;flex-shrink:0;}
+.student-name{font-size:12.5px;color:var(--text);flex:1;}
+.student-prog{font-size:11px;color:var(--text3);}
+.prog-mini{width:60px;height:4px;background:var(--bg4);border-radius:2px;margin-top:3px;}
+.prog-fill{height:100%;border-radius:2px;}
+
+/* ──────── STUDY PLAN ──────── */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:16px;}
+.cal-day{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 4px;text-align:center;cursor:pointer;transition:all .15s;}
+.cal-day:hover{border-color:var(--border2);}
+.cal-day.today{border-color:var(--blue);background:var(--blue3);}
+.cal-day.done{border-color:rgba(76,175,125,.3);background:var(--green2);}
+.cal-day.partial{border-color:rgba(232,184,75,.25);background:var(--gold2);}
+.cd-num{font-size:13px;font-weight:500;color:var(--text);}
+.cd-day{font-size:9px;font-family:var(--fm);color:var(--text3);margin-top:2px;}
+.cd-dot{width:5px;height:5px;border-radius:50%;margin:4px auto 0;background:var(--green);}
+.cal-day.today .cd-dot{background:var(--blue);}
+.cal-day.partial .cd-dot{background:var(--gold);}
+.plan-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.plan-item:last-child{border-bottom:none;}
+.plan-time{font-size:11px;font-family:var(--fm);color:var(--text3);width:55px;flex-shrink:0;}
+.plan-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.plan-title{font-size:12.5px;color:var(--text);flex:1;}
+.plan-dur{font-size:10.5px;font-family:var(--fm);color:var(--text3);}
+
+/* ──────── AI CHAT ──────── */
+.chat-wrap{display:grid;grid-template-columns:1fr 340px;gap:14px;height:calc(100vh - 130px);}
+.chat-main{display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;}
+.chat-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin;scrollbar-color:var(--bg5) transparent;}
+.msg{display:flex;gap:10px;align-items:flex-start;}
+.msg.ai{flex-direction:row;}
+.msg.user{flex-direction:row-reverse;}
+.msg-av{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;}
+.msg-av.ai-av{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;}
+.msg-av.usr-av{background:linear-gradient(135deg,var(--teal),var(--green));color:#fff;}
+.msg-bubble{max-width:82%;padding:10px 14px;border-radius:12px;font-size:12.5px;line-height:1.7;color:var(--text2);}
+.msg.ai .msg-bubble{background:var(--bg3);border:1px solid var(--border);border-radius:4px 12px 12px 12px;}
+.msg.user .msg-bubble{background:var(--blue3);border:1px solid rgba(79,124,255,.2);color:var(--text);border-radius:12px 4px 12px 12px;}
+.msg-bubble b{color:var(--text);font-weight:500;}
+.chat-in{display:flex;gap:9px;padding:12px 16px;border-top:1px solid var(--border);background:var(--bg3);}
+.chat-input{flex:1;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:9px 13px;font-family:var(--fb);font-size:13px;color:var(--text);outline:none;transition:border-color .2s;}
+.chat-input:focus{border-color:var(--border2);}
+.chat-input::placeholder{color:var(--text3);}
+.send-btn{width:36px;height:36px;background:var(--blue);border:none;border-radius:var(--r);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .15s;flex-shrink:0;}
+.send-btn:hover{opacity:.85;}
+.chat-side{display:flex;flex-direction:column;gap:11px;}
+.suggest-btn{width:100%;padding:9px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);text-align:left;font-family:var(--fb);font-size:12px;color:var(--text2);cursor:pointer;transition:all .15s;line-height:1.5;}
+.suggest-btn:hover{background:var(--bg4);border-color:var(--border2);color:var(--text);}
+
+/* ──────── TYPING INDICATOR ──────── */
+.typing{display:flex;gap:4px;align-items:center;padding:4px 0;}
+.typing span{width:5px;height:5px;border-radius:50%;background:var(--text3);animation:blink 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+
+/* ──────── DIVIDER ──────── */
+.div{height:1px;background:var(--border);margin:13px 0;}
+
+/* ──────── SCROLLBAR ──────── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px;}
+
+/* ──────── PROGRESS BAR ──────── */
+.prog-bar{height:4px;background:var(--bg4);border-radius:2px;margin-bottom:16px;}
+.prog-fill-bar{height:100%;border-radius:2px;background:var(--blue);transition:width .4s;}
+
+/* ──────── NOTIFICATION DOT ──────── */
+.notif{width:7px;height:7px;border-radius:50%;background:var(--coral);position:absolute;top:7px;right:7px;}
+
+/* ──────── TASK LIST ──────── */
+.task{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid var(--border);}
+.task:last-child{border-bottom:none;}
+.chk{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+.chk.done{background:var(--green);border-color:var(--green);}
+.chk.done::after{content:'✓';font-size:9px;color:#fff;}
+.tk{font-size:12.5px;color:var(--text);}
+.tm{font-size:10.5px;color:var(--text3);margin-top:2px;}
+.ttag{font-size:9.5px;padding:2px 7px;border-radius:6px;margin-left:auto;align-self:center;font-family:var(--fm);flex-shrink:0;}
+
+/* ──────── CA BADGES ──────── */
+.phys{background:var(--teal2);color:var(--teal);}
+.india{background:var(--blue3);color:var(--blue);}
+.env{background:var(--green2);color:var(--green);}
+.econ{background:var(--gold2);color:var(--gold);}
+.disas{background:var(--coral2);color:var(--coral);}
+
+/* ──────── HOTSPOT PULSE ──────── */
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(79,124,255,.5)}50%{box-shadow:0 0 0 6px rgba(79,124,255,0)}}
+.hs{animation:pulse 2s infinite;}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sb">
+  <div class="sb-logo">
+    <div class="logo-t">GeoPrep</div>
+    <div class="logo-s">UPSC Geography Platform</div>
+  </div>
+
+  <div class="nav-s">
+    <div class="nav-lbl">Prepare</div>
+    <div class="ni on" onclick="go('dash')">
+      <svg viewBox="0 0 15 15" fill="currentColor"><rect x="1" y="1" width="5.5" height="5.5" rx="1.2"/><rect x="8.5" y="1" width="5.5" height="5.5" rx="1.2"/><rect x="1" y="8.5" width="5.5" height="5.5" rx="1.2"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.2"/></svg>
+      Dashboard
+    </div>
+    <div class="ni" onclick="go('atlas')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7.5 2C4.5 2 2 4.5 2 7.5s2.5 5.5 5.5 5.5 5.5-2.5 5.5-5.5S10.5 2 7.5 2z"/><path d="M2 7.5h11M7.5 2c-1.5 2-2.5 3.5-2.5 5.5s1 3.5 2.5 5.5M7.5 2c1.5 2 2.5 3.5 2.5 5.5S9 13 7.5 15"/></svg>
+      Interactive Atlas
+    </div>
+    <div class="ni" onclick="go('drill')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7.5" cy="7.5" r="5.5"/><path d="M6 6.5a1.8 1.8 0 113.6 0c0 1.4-1.8 1.8-1.8 3.2"/><circle cx="7.5" cy="11.5" r=".5" fill="currentColor"/></svg>
+      Prelims Drill
+      <span class="nb">12</span>
+    </div>
+    <div class="ni" onclick="go('aw')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="11" height="11" rx="1.8"/><path d="M4.5 5.5h6M4.5 8h4"/></svg>
+      Answer Writing
+    </div>
+    <div class="ni" onclick="go('chat')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 2h11v8H9l-1.5 3L6 10H2V2z"/></svg>
+      AI Tutor
+      <span class="nb gold">New</span>
+    </div>
+  </div>
+
+  <div class="nav-s">
+    <div class="nav-lbl">Content</div>
+    <div class="ni" onclick="go('ca')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3" width="11" height="10" rx="1.5"/><path d="M5 3V1M10 3V1M2 6.5h11"/></svg>
+      Current Affairs
+      <span class="nb">7</span>
+    </div>
+    <div class="ni" onclick="go('pyq')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 2h7l3 3v8H3V2z"/><path d="M10 2v3h3M5.5 7h4M5.5 9.5h3"/></svg>
+      PYQ Bank
+    </div>
+    <div class="ni" onclick="go('notes')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 2h6l4 4v7H3V2z"/><path d="M9 2v4h4M5.5 8h4M5.5 10.5h2.5"/></svg>
+      My Notes
+    </div>
+  </div>
+
+  <div class="nav-s">
+    <div class="nav-lbl">Plan & Track</div>
+    <div class="ni" onclick="go('plan')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 11L5 7.5l3 2 3-4 2.5 3.5"/><rect x="1" y="1" width="13" height="13" rx="2"/></svg>
+      Study Plan
+    </div>
+    <div class="ni" onclick="go('teacher')">
+      <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="5" cy="5" r="2.5"/><path d="M1 13c0-2.2 1.8-4 4-4s4 1.8 4 4"/><path d="M10 6l2 2 2-4"/></svg>
+      Teacher Studio
+    </div>
+  </div>
+
+  <div class="sb-foot">
+    <div class="up">
+      <div class="av">RA</div>
+      <div>
+        <div class="un">Rohit Anand</div>
+        <div class="um">Attempt 1 · Pro</div>
+      </div>
+      <div class="streak">🔥 14</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+
+  <!-- TOP BAR (dynamic) -->
+  <div class="topbar">
+    <div>
+      <div class="pg-title" id="pg-title">Good morning, <span>Rohit</span></div>
+      <div class="pg-sub" id="pg-sub">Sunday · 3 tasks pending · Exam in <b style="color:var(--gold)">187 days</b></div>
+    </div>
+    <div class="tb-right">
+      <div class="search">
+        <svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="var(--text3)" stroke-width="1.5"><circle cx="5.5" cy="5.5" r="4"/><path d="M9 9l2.5 2.5"/></svg>
+        <input placeholder="Search topics, PYQs, concepts…" id="search-in">
+      </div>
+      <div class="ib" onclick="go('ca')" title="Notifications">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 1a4 4 0 014 4v3l1.5 2H1.5L3 8V5a4 4 0 014-4z"/><path d="M5.5 11.5a1.5 1.5 0 003 0"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ════ DASHBOARD ════ -->
+    <div class="view on" id="v-dash">
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="sc bl" onclick="go('drill')"><div class="sl">Questions done</div><div class="sv">847</div><div class="sd"><b>+23</b> this week</div></div>
+        <div class="sc go"><div class="sl">Syllabus covered</div><div class="sv">61%</div><div class="sd"><b>+4%</b> this week</div></div>
+        <div class="sc te" onclick="go('aw')"><div class="sl">Answers written</div><div class="sv">34</div><div class="sd">Avg score <b style="color:var(--gold)">7.2/10</b></div></div>
+        <div class="sc co"><div class="sl">Study streak</div><div class="sv">14d</div><div class="sd">Best: <b>22 days</b></div></div>
+      </div>
+
+      <div class="gcol">
+        <div class="col">
+          <!-- Today plan -->
+          <div class="card">
+            <div class="ph"><span class="pt">Today's plan</span><span class="pa">Edit →</span></div>
+            <div class="pb" style="padding-top:6px;padding-bottom:6px;">
+              <div class="task"><div class="chk done" onclick="this.classList.toggle('done')"></div><div style="flex:1"><div class="tk">Monsoon System — 20 MCQs</div><div class="tm">Spaced repetition · Due today</div></div><div class="ttag chip bl">Prelims</div></div>
+              <div class="task"><div class="chk" onclick="this.classList.toggle('done')"></div><div style="flex:1"><div class="tk">Write answer: Himalayan vs Peninsular rivers</div><div class="tm">15 marks · 250 words · GS1 pattern</div></div><div class="ttag chip te">Mains</div></div>
+              <div class="task"><div class="chk" onclick="this.classList.toggle('done')"></div><div style="flex:1"><div class="tk">Current Affairs: Cyclone Biparjoy — geo linkages</div><div class="tm">3 concepts tagged · Bay of Bengal</div></div><div class="ttag chip go">CA</div></div>
+              <div class="task"><div class="chk" onclick="this.classList.toggle('done')"></div><div style="flex:1"><div class="tk">Map drill — Identify Indian hill stations</div><div class="tm">Blank map · 8 locations</div></div><div class="ttag chip co">Map</div></div>
+            </div>
+          </div>
+
+          <!-- Topic coverage -->
+          <div class="card">
+            <div class="ph"><span class="pt">Topic coverage</span><span class="pa" onclick="go('atlas')">View on map →</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="td" style="background:var(--teal)"></div><div class="tn">Physical Geography</div><div class="tbw"><div class="tb" style="width:78%;background:var(--teal)"></div></div><div class="tp">78%</div></div>
+              <div class="tr"><div class="td" style="background:var(--blue)"></div><div class="tn">Indian Geography</div><div class="tbw"><div class="tb" style="width:65%;background:var(--blue)"></div></div><div class="tp">65%</div></div>
+              <div class="tr"><div class="td" style="background:var(--gold)"></div><div class="tn">Economic Geography</div><div class="tbw"><div class="tb" style="width:42%;background:var(--gold)"></div></div><div class="tp">42%</div></div>
+              <div class="tr"><div class="td" style="background:var(--coral)"></div><div class="tn">Human Geography</div><div class="tbw"><div class="tb" style="width:38%;background:var(--coral)"></div></div><div class="tp">38%</div></div>
+              <div class="tr"><div class="td" style="background:var(--violet)"></div><div class="tn">Contemporary Issues</div><div class="tbw"><div class="tb" style="width:55%;background:var(--violet)"></div></div><div class="tp">55%</div></div>
+            </div>
+          </div>
+
+          <!-- CA strip -->
+          <div class="card">
+            <div class="ph"><span class="pt">Current affairs — geo lens</span><span style="font-size:10px;font-family:var(--fm);color:var(--text3)">Updated today</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr" onclick="go('ca')"><div style="flex:1"><div style="font-size:12.5px;color:var(--text);margin-bottom:3px;">Cyclone Biparjoy — Bay of Bengal warm water dynamics</div><div style="font-size:10.5px;color:var(--text3)">Links to: <span style="color:var(--blue)">Cyclogenesis → Tropical Cyclones</span></div></div><div class="chip te">Physical</div></div>
+              <div class="tr" onclick="go('ca')"><div style="flex:1"><div style="font-size:12.5px;color:var(--text);margin-bottom:3px;">Brahmaputra floods — cloudburst origin, sedimentation</div><div style="font-size:10.5px;color:var(--text3)">Links to: <span style="color:var(--blue)">Himalayan rivers → Braided channels</span></div></div><div class="chip bl">India</div></div>
+              <div class="tr" style="border:none" onclick="go('ca')"><div style="flex:1"><div style="font-size:12.5px;color:var(--text);margin-bottom:3px;">Western Ghats — new endemic species, Agasthyamalai</div><div style="font-size:10.5px;color:var(--text3)">Links to: <span style="color:var(--blue)">Biogeography → Hotspots</span></div></div><div class="chip gr">Env</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right col -->
+        <div class="col">
+          <!-- Map mini -->
+          <div class="card">
+            <div class="ph"><span class="pt">Interactive Atlas</span><span class="pa" onclick="go('atlas')">Open →</span></div>
+            <div class="pb">
+              <div class="map-wrap" style="height:165px;border-radius:var(--r);cursor:pointer;" onclick="go('atlas')">
+                <svg width="100%" height="100%" viewBox="0 0 280 165">
+                  <rect width="280" height="165" fill="#181C28"/>
+                  <path d="M88 18 L122 16 L148 20 L172 34 L183 54 L186 78 L179 102 L170 122 L160 140 L150 155 L142 160 L136 156 L126 142 L114 122 L104 100 L95 78 L90 56 L85 36 Z" fill="#1E2333" stroke="rgba(79,124,255,.4)" stroke-width="1.2"/>
+                  <path d="M125 17 Q136 46 150 62 Q163 76 178 94" fill="none" stroke="rgba(62,207,178,.55)" stroke-width="1.2"/>
+                  <path d="M96 52 Q108 66 120 76 Q134 88 142 106 Q147 124 142 160" fill="none" stroke="rgba(62,207,178,.4)" stroke-width="1"/>
+                  <path d="M86 24 Q108 19 126 18 Q145 17 163 22 Q175 26 182 34" fill="none" stroke="rgba(232,184,75,.5)" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="138" cy="48" r="4" fill="rgba(79,124,255,.9)"/><circle cx="138" cy="48" r="8" fill="rgba(79,124,255,.15)"/>
+                  <circle cx="123" cy="95" r="3.5" fill="rgba(232,184,75,.9)"/><circle cx="123" cy="95" r="7" fill="rgba(232,184,75,.15)"/>
+                  <circle cx="160" cy="72" r="3.5" fill="rgba(62,207,178,.9)"/><circle cx="160" cy="72" r="7" fill="rgba(62,207,178,.15)"/>
+                  <circle cx="152" cy="135" r="3" fill="rgba(255,107,107,.8)"/>
+                  <text x="142" y="42" font-size="7" fill="rgba(79,124,255,.9)" font-family="monospace">Delhi</text>
+                  <text x="127" y="88" font-size="7" fill="rgba(232,184,75,.9)" font-family="monospace">MP</text>
+                  <text x="164" y="65" font-size="7" fill="rgba(62,207,178,.9)" font-family="monospace">UP</text>
+                </svg>
+              </div>
+              <div class="layer-bar" style="margin-top:9px;">
+                <span class="chip te">Rivers</span>
+                <span class="chip bl">Capitals</span>
+                <span class="chip go">Minerals</span>
+                <span class="chip">+12 layers</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="card">
+            <div class="ph"><span class="pt">Quick start</span></div>
+            <div class="pb">
+              <div class="g2">
+                <div class="ts-card" style="padding:12px;" onclick="go('drill')"><div class="ts-icon" style="background:var(--blue3);width:30px;height:30px;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--blue)" stroke-width="1.4"><circle cx="7" cy="7" r="5"/><path d="M5.5 5.8a2 2 0 113.5.8c0 1.3-1.8 1.5-1.8 3"/></svg></div><div class="ts-title" style="font-size:12px;">Prelims drill</div><div class="ts-sub">12 due today</div></div>
+                <div class="ts-card" style="padding:12px;" onclick="go('aw')"><div class="ts-icon" style="background:var(--teal2);width:30px;height:30px;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--teal)" stroke-width="1.4"><rect x="2" y="2" width="10" height="10" rx="1.5"/><path d="M4.5 5.5h5M4.5 8h3"/></svg></div><div class="ts-title" style="font-size:12px;">Write answer</div><div class="ts-sub">AI evaluation</div></div>
+                <div class="ts-card" style="padding:12px;" onclick="go('chat')"><div class="ts-icon" style="background:rgba(123,92,245,.1);width:30px;height:30px;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--violet)" stroke-width="1.4"><path d="M2 2h10v7H8l-1 3-1-3H2V2z"/></svg></div><div class="ts-title" style="font-size:12px;">AI Tutor</div><div class="ts-sub">Ask anything</div></div>
+                <div class="ts-card" style="padding:12px;" onclick="go('pyq')"><div class="ts-icon" style="background:var(--gold2);width:30px;height:30px;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--gold)" stroke-width="1.4"><path d="M3 2h6l3 3v7H3V2z"/><path d="M9 2v3h3M5 6.5h4M5 9h3"/></svg></div><div class="ts-title" style="font-size:12px;">PYQ Bank</div><div class="ts-sub">25 years</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PYQ of the day -->
+          <div class="card">
+            <div class="ph"><span class="pt">PYQ of the day</span><span class="chip go">UPSC 2022</span></div>
+            <div class="pb">
+              <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:11px;">"Discuss the role of jet streams in determining the onset and withdrawal of the Indian monsoon."</div>
+              <div style="display:flex;gap:7px;margin-bottom:11px;flex-wrap:wrap;">
+                <span class="chip te">Climatology</span><span class="chip go">15 marks</span><span class="chip bl">250 words</span>
+              </div>
+              <button class="btn btn-g" style="font-size:11.5px;padding:7px 13px;" onclick="go('aw')">Write answer →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ ATLAS ════ -->
+    <div class="view" id="v-atlas">
+      <div style="display:grid;grid-template-columns:1fr 295px;gap:14px;">
+        <div>
+          <div class="map-wrap" style="height:460px;" id="main-map">
+            <svg width="100%" height="100%" viewBox="0 0 680 460" id="atlas-svg" xmlns="http://www.w3.org/2000/svg">
+              <rect width="680" height="460" fill="#181C28"/>
+              <!-- Grid -->
+              <line x1="0" y1="153" x2="680" y2="153" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="306" x2="680" y2="306" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="226" y1="0" x2="226" y2="460" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="453" y1="0" x2="453" y2="460" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <!-- India main shape -->
+              <path id="india-shape" d="M185 55 L272 50 L345 65 L390 105 L400 155 L395 205 L382 248 L368 288 L352 328 L336 358 L320 382 L306 398 L295 406 L282 398 L264 370 L244 336 L222 298 L208 258 L198 210 L190 165 L183 120 Z" fill="#1E2333" stroke="rgba(79,124,255,.3)" stroke-width="1.5"/>
+              <!-- Sri Lanka -->
+              <ellipse cx="310" cy="432" rx="12" ry="16" fill="#1A1E2C" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+              <!-- State boundaries suggestion -->
+              <line x1="186" y1="155" x2="400" y2="155" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+              <line x1="188" y1="235" x2="398" y2="235" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+              <line x1="194" y1="305" x2="380" y2="305" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+              <line x1="265" y1="52" x2="268" y2="400" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+              <line x1="230" y1="58" x2="234" y2="380" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+              <line x1="328" y1="62" x2="330" y2="372" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+              <!-- Himalayan range -->
+              <path d="M184 60 Q228 52 272 50 Q316 50 345 60 Q368 68 385 80 Q392 86 394 96" fill="none" stroke="rgba(232,184,75,.55)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Western Ghats -->
+              <path d="M208 165 Q204 200 205 240 Q206 278 212 308 Q216 336 224 358" fill="none" stroke="rgba(76,175,125,.55)" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Eastern Ghats -->
+              <path d="M318 170 Q336 200 352 235 Q362 262 362 290" fill="none" stroke="rgba(232,184,75,.3)" stroke-width="2" stroke-linecap="round" stroke-dasharray="6,3"/>
+              <!-- Rivers -->
+              <path d="M256 52 Q270 90 298 120 Q328 152 368 174" fill="none" stroke="rgba(62,207,178,.6)" stroke-width="2"/>
+              <path d="M186 118 Q212 148 232 170 Q254 192 264 224 Q272 254 270 298 Q268 338 265 390 Q264 398 265 406" fill="none" stroke="rgba(62,207,178,.5)" stroke-width="1.5"/>
+              <path d="M250 52 Q244 84 240 115 Q238 142 242 168" fill="none" stroke="rgba(62,207,178,.35)" stroke-width="1.2"/>
+              <path d="M336 360 Q326 380 318 395 Q312 405 308 412" fill="none" stroke="rgba(62,207,178,.35)" stroke-width="1.2"/>
+              <!-- Region labels -->
+              <text x="222" y="96" font-size="9" fill="rgba(232,184,75,.7)" font-family="monospace" font-weight="500">Himalayas</text>
+              <text x="206" y="208" font-size="8" fill="rgba(76,175,125,.7)" font-family="monospace">W. Ghats</text>
+              <text x="250" y="148" font-size="9" fill="rgba(79,124,255,.8)" font-family="monospace">IGP</text>
+              <text x="288" y="268" font-size="8.5" fill="rgba(255,255,255,.35)" font-family="monospace">Deccan</text>
+              <text x="340" y="188" font-size="8" fill="rgba(232,184,75,.4)" font-family="monospace" font-style="italic">E. Ghats</text>
+              <!-- Ocean labels -->
+              <text x="72" y="268" font-size="9" fill="rgba(62,207,178,.35)" font-family="monospace">Arabian Sea</text>
+              <text x="420" y="285" font-size="9" fill="rgba(62,207,178,.35)" font-family="monospace">Bay of Bengal</text>
+              <text x="252" y="445" font-size="8.5" fill="rgba(62,207,178,.3)" font-family="monospace">Indian Ocean</text>
+              <!-- Clickable hotspots -->
+              <g class="hs" id="hs-him" style="cursor:pointer" onclick="showRegion('himalaya')">
+                <circle cx="280" cy="92" r="6" fill="rgba(232,184,75,.85)"/>
+                <circle cx="280" cy="92" r="11" fill="rgba(232,184,75,.15)"/>
+              </g>
+              <g class="hs" id="hs-igp" style="cursor:pointer" onclick="showRegion('igp')">
+                <circle cx="268" cy="158" r="6" fill="rgba(79,124,255,.9)"/>
+                <circle cx="268" cy="158" r="11" fill="rgba(79,124,255,.15)"/>
+              </g>
+              <g class="hs" id="hs-wg" style="cursor:pointer" onclick="showRegion('wghats')">
+                <circle cx="216" cy="240" r="6" fill="rgba(76,175,125,.9)"/>
+                <circle cx="216" cy="240" r="11" fill="rgba(76,175,125,.15)"/>
+              </g>
+              <g class="hs" id="hs-dec" style="cursor:pointer" onclick="showRegion('deccan')">
+                <circle cx="324" cy="280" r="6" fill="rgba(255,107,107,.85)"/>
+                <circle cx="324" cy="280" r="11" fill="rgba(255,107,107,.15)"/>
+              </g>
+              <g class="hs" id="hs-coast" style="cursor:pointer" onclick="showRegion('coast')">
+                <circle cx="298" cy="370" r="5" fill="rgba(123,92,245,.85)"/>
+                <circle cx="298" cy="370" r="9" fill="rgba(123,92,245,.15)"/>
+              </g>
+              <g class="hs" id="hs-thar" style="cursor:pointer" onclick="showRegion('thar')">
+                <circle cx="196" cy="148" r="5" fill="rgba(232,184,75,.7)"/>
+                <circle cx="196" cy="148" r="9" fill="rgba(232,184,75,.12)"/>
+              </g>
+            </svg>
+            <div class="map-ctrl">
+              <div class="mc">+</div>
+              <div class="mc">−</div>
+              <div class="mc" onclick="go('drill')">⊙</div>
+            </div>
+            <div class="map-tip" id="map-tip"></div>
+          </div>
+          <div class="layer-bar" style="margin-top:10px;">
+            <span class="chip te" style="cursor:pointer">Rivers</span>
+            <span class="chip go" style="cursor:pointer">Mountains</span>
+            <span class="chip gr" style="cursor:pointer">Forest</span>
+            <span class="chip" style="cursor:pointer">Soils</span>
+            <span class="chip" style="cursor:pointer">Rainfall</span>
+            <span class="chip" style="cursor:pointer">Minerals</span>
+            <span class="chip" style="cursor:pointer">Agriculture</span>
+            <span class="chip" style="cursor:pointer">Industries</span>
+            <span class="chip bl" style="cursor:pointer">Blank map drill</span>
+          </div>
+        </div>
+
+        <!-- Region info -->
+        <div class="col">
+          <div class="ri-card" id="region-card">
+            <div class="ri-head">
+              <div style="font-size:12px;color:var(--text3);font-family:var(--fm);">SELECT A REGION</div>
+              <div class="ri-name" style="font-size:15px;color:var(--text2);margin-top:6px;">Click any glowing dot on the map</div>
+            </div>
+            <div class="ri-body" id="region-body">
+              <div style="text-align:center;padding:20px 0;color:var(--text3);font-size:12px;">Explore India's physical regions,<br>linked PYQs and current affairs</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">All regions</span></div>
+            <div class="pb" style="padding-top:6px;padding-bottom:6px;">
+              <div class="tr" onclick="showRegion('himalaya')"><div class="td" style="background:var(--gold)"></div><div class="tn">Himalayan Region</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">12 PYQs</div></div>
+              <div class="tr" onclick="showRegion('igp')"><div class="td" style="background:var(--blue)"></div><div class="tn">Indo-Gangetic Plain</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">18 PYQs</div></div>
+              <div class="tr" onclick="showRegion('wghats')"><div class="td" style="background:var(--green)"></div><div class="tn">Western Ghats</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">9 PYQs</div></div>
+              <div class="tr" onclick="showRegion('deccan')"><div class="td" style="background:var(--coral)"></div><div class="tn">Deccan Plateau</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">14 PYQs</div></div>
+              <div class="tr" onclick="showRegion('thar')"><div class="td" style="background:var(--amber)"></div><div class="tn">Thar Desert</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">6 PYQs</div></div>
+              <div class="tr" style="border:none" onclick="showRegion('coast')"><div class="td" style="background:var(--violet)"></div><div class="tn">Coastal Plains</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">7 PYQs</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ PRELIMS DRILL ════ -->
+    <div class="view" id="v-drill">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px 18px;margin-bottom:18px;display:flex;align-items:center;gap:16px;">
+        <div style="font-size:11.5px;color:var(--text2);flex-shrink:0;font-family:var(--fm)">Q 4 / 12</div>
+        <div class="prog-bar" style="flex:1;margin:0"><div class="prog-fill-bar" style="width:33%"></div></div>
+        <div style="display:flex;gap:14px;font-size:11.5px;font-family:var(--fm);">
+          <span style="color:var(--green)">✓ 3</span><span style="color:var(--coral)">✗ 1</span><span style="color:var(--text3)">○ 8</span>
+        </div>
+        <button class="btn btn-g" style="font-size:11px;padding:5px 12px;" onclick="skipQ()">Skip →</button>
+      </div>
+
+      <div class="gcol2">
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="pb">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                <span style="font-size:10.5px;color:var(--text3);font-family:var(--fm)">Q.4</span>
+                <span class="chip bl">Climatology</span>
+                <span class="chip go">Medium</span>
+                <span style="font-size:10.5px;color:var(--text3);margin-left:auto;font-family:var(--fm)">PYQ · 2019</span>
+              </div>
+              <div class="mcq-q" id="qtext">
+                Consider the following statements about the <b>Indian Ocean Dipole (IOD)</b>:<br><br>
+                1. A positive IOD is associated with above-normal monsoon rainfall over India.<br>
+                2. IOD is measured by the difference in Sea Surface Temperatures between the western and eastern Indian Ocean.<br>
+                3. A negative IOD event was observed in 2019, contributing to severe drought conditions over India.<br><br>
+                Which of the statements given above is/are <b>correct</b>?
+              </div>
+              <div class="opts" id="opts">
+                <div class="opt" onclick="pickOpt(this,false)"><span class="ol">A</span>1 only</div>
+                <div class="opt" onclick="pickOpt(this,false)"><span class="ol">B</span>2 and 3 only</div>
+                <div class="opt" onclick="pickOpt(this,true)"><span class="ol">C</span>1 and 2 only</div>
+                <div class="opt" onclick="pickOpt(this,false)"><span class="ol">D</span>1, 2 and 3</div>
+              </div>
+              <div class="exp" id="exp">
+                <b>Explanation:</b> Statements 1 & 2 are correct. A <b>positive IOD</b> (warmer western Indian Ocean) enhances moisture-laden winds toward India, boosting monsoon. The IOD index is indeed defined by SST difference across the Indian Ocean. Statement 3 is <b>incorrect</b> — 2019 actually saw a <b>positive IOD</b>, which partially offset El Niño effects and supported a reasonable monsoon season.
+                <div style="margin-top:9px;display:flex;gap:7px;flex-wrap:wrap;">
+                  <span class="chip te">Climatology</span><span class="chip bl">Oceanography</span><span class="chip go">El Niño links</span>
+                </div>
+              </div>
+              <div style="display:flex;gap:9px;margin-top:16px;">
+                <button class="btn btn-p" id="sub-btn" onclick="submitQ()">Submit answer</button>
+                <button class="btn btn-g" onclick="skipQ()">Skip</button>
+                <button class="btn btn-g" style="margin-left:auto;" onclick="go('atlas')">View on map</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="ph"><span class="pt">Weak areas</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="td" style="background:var(--coral)"></div><div class="tn">Ocean currents</div><div class="tp" style="color:var(--coral)">44%</div></div>
+              <div class="tr"><div class="td" style="background:var(--coral)"></div><div class="tn">Soil types</div><div class="tp" style="color:var(--coral)">51%</div></div>
+              <div class="tr" style="border:none"><div class="td" style="background:var(--gold)"></div><div class="tn">Jet streams</div><div class="tp" style="color:var(--gold)">58%</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">Accuracy by category</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="td" style="background:var(--green)"></div><div class="tn">Factual</div><div class="tbw"><div class="tb" style="width:82%;background:var(--green)"></div></div><div class="tp">82%</div></div>
+              <div class="tr"><div class="td" style="background:var(--gold)"></div><div class="tn">Application</div><div class="tbw"><div class="tb" style="width:64%;background:var(--gold)"></div></div><div class="tp">64%</div></div>
+              <div class="tr" style="border:none"><div class="td" style="background:var(--coral)"></div><div class="tn">Map-based</div><div class="tbw"><div class="tb" style="width:55%;background:var(--coral)"></div></div><div class="tp">55%</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">This week</span></div>
+            <div class="pb">
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:3px;height:56px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;"><div style="width:100%;background:var(--blue);border-radius:2px;height:28px;opacity:.7;"></div><div style="font-size:8.5px;color:var(--text3);font-family:var(--fm)">M</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;"><div style="width:100%;background:var(--blue);border-radius:2px;height:42px;opacity:.8;"></div><div style="font-size:8.5px;color:var(--text3);font-family:var(--fm)">T</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;"><div style="width:100%;background:var(--blue);border-radius:2px;height:36px;opacity:.8;"></div><div style="font-size:8.5px;color:var(--text3);font-family:var(--fm)">W</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;"><div style="width:100%;background:var(--blue);border-radius:2px;height:50px;"></div><div style="font-size:8.5px;color:var(--text3);font-family:var(--fm)">T</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;"><div style="width:100%;background:var(--blue);border-radius:2px;height:20px;opacity:.5;"></div><div style="font-size:8.5px;color:var(--text3);font-family:var(--fm)">F</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;"><div style="width:100%;background:var(--blue);border-radius:2px;height:40px;opacity:.75;"></div><div style="font-size:8.5px;color:var(--text3);font-family:var(--fm)">S</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;"><div style="width:100%;background:var(--gold);border-radius:2px;height:10px;opacity:.6;"></div><div style="font-size:8.5px;color:var(--gold);font-family:var(--fm)">S</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ ANSWER WRITING ════ -->
+    <div class="view" id="v-aw">
+      <div class="aw-wrap">
+        <div class="aw-ed">
+          <div class="aw-tb">
+            <span style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">Format:</span>
+            <button class="btn btn-g" style="font-size:11px;padding:3px 9px;font-weight:700;">B</button>
+            <button class="btn btn-g" style="font-size:11px;padding:3px 9px;font-style:italic;">I</button>
+            <button class="btn btn-g" style="font-size:11px;padding:3px 9px;">¶</button>
+            <div style="margin-left:auto;display:flex;gap:7px;">
+              <span class="chip bl">GS1 · 2023</span><span class="chip go">15 marks</span><span class="chip te">250 words</span>
+            </div>
+          </div>
+          <div class="aw-q-box">
+            <div class="aw-ql">Question</div>
+            <div class="aw-qt">Examine the factors responsible for the formation of the Western Ghats and discuss their significance as a biodiversity hotspot. How has human activity threatened this fragile ecosystem?</div>
+            <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;">
+              <span class="chip te">Physical Geo</span><span class="chip gr">Biogeography</span>
+            </div>
+          </div>
+          <textarea class="aw-ta" id="aw-ta" oninput="wcnt(this)" placeholder="Begin your answer here...&#10;&#10;Suggested structure:&#10;• Introduction: Define & locate Western Ghats (1–2 lines)&#10;• Para 1: Geological formation — rift valley, Deccan Trap erosion&#10;• Para 2: Biodiversity significance — 5,000+ plant species, endemic fauna, Gadgil report&#10;• Para 3: Human threats — mining, railways, tourism, climate change&#10;• Conclusion: Kasturirangan Committee recommendations"></textarea>
+          <div class="aw-ft">
+            <div class="wc">Words: <b id="wc-n">0</b> / 250</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-g" style="font-size:11.5px;padding:6px 13px;">Save draft</button>
+              <button class="btn btn-p" style="font-size:11.5px;padding:6px 13px;" onclick="evalAnswer()">Submit for AI eval ✦</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-panel">
+          <div class="rub">
+            <div class="rub-t">Evaluation rubric</div>
+            <div class="ri"><div class="rl"><span>Introduction quality</span><span id="rs1" style="color:var(--gold);font-family:var(--fm)">—</span></div><div class="rbw"><div class="rb" id="rb1" style="width:0%;background:var(--gold)"></div></div></div>
+            <div class="ri"><div class="rl"><span>Conceptual accuracy</span><span id="rs2" style="color:var(--teal);font-family:var(--fm)">—</span></div><div class="rbw"><div class="rb" id="rb2" style="width:0%;background:var(--teal)"></div></div></div>
+            <div class="ri"><div class="rl"><span>Structure & flow</span><span id="rs3" style="color:var(--blue);font-family:var(--fm)">—</span></div><div class="rbw"><div class="rb" id="rb3" style="width:0%;background:var(--blue)"></div></div></div>
+            <div class="ri"><div class="rl"><span>Multidimensional analysis</span><span id="rs4" style="color:var(--violet);font-family:var(--fm)">—</span></div><div class="rbw"><div class="rb" id="rb4" style="width:0%;background:var(--violet)"></div></div></div>
+            <div class="ri" style="margin-bottom:0"><div class="rl"><span>Conclusion strength</span><span id="rs5" style="color:var(--green);font-family:var(--fm)">—</span></div><div class="rbw"><div class="rb" id="rb5" style="width:0%;background:var(--green)"></div></div></div>
+            <div id="score-box" style="display:none;margin-top:13px;padding:10px;background:var(--bg4);border-radius:var(--r);text-align:center;">
+              <div style="font-size:9.5px;color:var(--text3);font-family:var(--fm);margin-bottom:3px;">OVERALL SCORE</div>
+              <div style="font-family:var(--fd);font-size:30px;color:var(--gold)" id="score-v">—</div>
+              <div style="font-size:10.5px;color:var(--text3)">out of 10</div>
+            </div>
+          </div>
+
+          <div class="rub" id="fb-box" style="display:none;">
+            <div class="rub-t">AI Feedback</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7;" id="fb-text"></div>
+          </div>
+
+          <button class="ai-btn" id="ai-eval-btn" onclick="evalAnswer()">✦ Evaluate with AI (Claude)</button>
+
+          <div class="rub">
+            <div class="rub-t">Top answers</div>
+            <div class="tr" style="padding:8px 0;"><div class="av" style="width:25px;height:25px;font-size:10px;flex-shrink:0;">AK</div><div style="font-size:12px;color:var(--text2);flex:1;margin-left:8px;">Anshu Kumar · AIR 12</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--gold)">9.2</div></div>
+            <div class="tr" style="padding:8px 0;border:none;"><div class="av" style="width:25px;height:25px;font-size:10px;flex-shrink:0;background:linear-gradient(135deg,var(--teal),var(--green))">PR</div><div style="font-size:12px;color:var(--text2);flex:1;margin-left:8px;">Priya Rajan · AIR 45</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--gold)">8.8</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ AI TUTOR CHAT ════ -->
+    <div class="view" id="v-chat">
+      <div class="chat-wrap">
+        <div class="chat-main">
+          <div class="ph" style="background:var(--bg3);">
+            <div>
+              <div class="pt">AI Geography Tutor</div>
+              <div style="font-size:10.5px;color:var(--text3);margin-top:1px;">Powered by Claude · Syllabus-aware · PYQ-linked</div>
+            </div>
+            <div style="display:flex;gap:7px;">
+              <span class="chip bl">GS1 mode</span>
+              <span class="chip go">Optional mode</span>
+            </div>
+          </div>
+          <div class="chat-msgs" id="chat-msgs">
+            <div class="msg ai">
+              <div class="msg-av ai-av">G</div>
+              <div class="msg-bubble">Hello! I'm your UPSC Geography tutor. I can help you understand concepts, link current affairs to the syllabus, explain PYQ patterns, or evaluate your understanding. <b>What do you want to explore today?</b><br><br>Try asking about monsoon systems, ocean currents, Himalayan geography, or any topic from your syllabus.</div>
+            </div>
+          </div>
+          <div class="chat-in">
+            <input class="chat-input" id="chat-in" placeholder="Ask about any geography concept, PYQ, current affair…" onkeydown="if(event.key==='Enter')sendChat()">
+            <button class="send-btn" onclick="sendChat()">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="chat-side">
+          <div class="card">
+            <div class="ph"><span class="pt">Suggested questions</span></div>
+            <div class="pb" style="display:flex;flex-direction:column;gap:7px;padding-top:10px;">
+              <button class="suggest-btn" onclick="askQ('Explain the mechanism of the Indian monsoon and how jet streams influence its onset')">Explain Indian monsoon mechanism & jet stream role</button>
+              <button class="suggest-btn" onclick="askQ('What are the differences between Himalayan rivers and Peninsular rivers? Give 5 key points')">Himalayan vs Peninsular rivers — key differences</button>
+              <button class="suggest-btn" onclick="askQ('How does El Niño affect Indian monsoon? Link to 2023 current affairs')">El Niño impact on Indian monsoon + current affairs</button>
+              <button class="suggest-btn" onclick="askQ('Explain Western Ghats biodiversity hotspot — formation, significance, threats. Give UPSC answer points')">Western Ghats — UPSC answer points</button>
+              <button class="suggest-btn" onclick="askQ('What are the major soil types in India and their agricultural significance? Map-based explanation')">Indian soil types — map-based explanation</button>
+              <button class="suggest-btn" onclick="askQ('Explain the Deccan Plateau formation. Why is it significant in terms of minerals and agriculture?')">Deccan Plateau — formation & significance</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">Chat context</span></div>
+            <div class="pb">
+              <div style="font-size:12px;color:var(--text3);line-height:1.6;">The tutor knows your <span style="color:var(--text2)">weak topics</span> (ocean currents, soil types) and will connect answers to relevant PYQs and current affairs automatically.</div>
+              <div class="div"></div>
+              <div style="display:flex;gap:7px;flex-wrap:wrap;">
+                <span class="chip co">Weak: Ocean currents</span>
+                <span class="chip co">Weak: Soils</span>
+                <span class="chip bl">Strong: Climatology</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ CURRENT AFFAIRS ════ -->
+    <div class="view" id="v-ca">
+      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px;">
+        <div class="pf on">All</div>
+        <div class="pf">Physical Geo</div>
+        <div class="pf">Indian Geo</div>
+        <div class="pf">Environment</div>
+        <div class="pf">Disasters</div>
+        <div class="pf">Economic Geo</div>
+        <div class="pf">Geopolitics</div>
+      </div>
+      <div class="gcol">
+        <div>
+          <div class="ca-card" onclick="expandCA(this)">
+            <div class="ca-top"><span class="ca-badge phys">Physical</span><div class="ca-title">Cyclone Biparjoy — tracking, landfall in Kutch, Bay of Bengal warm water dynamics and IOD linkage</div></div>
+            <div class="ca-link">Syllabus links: <span>Cyclogenesis → Tropical Cyclones → Arabian Sea vs Bay of Bengal</span></div>
+            <div class="ca-date">June 2024 · 3 concepts tagged</div>
+            <div class="ca-expand">
+              <div class="ca-detail"><b style="color:var(--text)">Geographic significance:</b> Cyclone Biparjoy developed in the Arabian Sea — unusual for its intensity at that latitude. Key UPSC angle: warm SSTs (>26°C) required for cyclogenesis, Coriolis force role, landfall in ecologically sensitive Kutch/Rann area.<br><br><b style="color:var(--text)">Syllabus connect:</b> Physical Geography → Climatology → Tropical cyclones. Also connects to GS3 — disaster management, Early Warning Systems.<br><br><b style="color:var(--text)">PYQ pattern:</b> UPSC 2020 asked about Bay of Bengal cyclone frequency vs Arabian Sea. This event gives fresh data points for answer enrichment.</div>
+              <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap;">
+                <button class="btn btn-teal" style="font-size:11.5px;padding:6px 12px;" onclick="askQ('Explain why the Arabian Sea produces fewer but more intense cyclones compared to Bay of Bengal')">Ask AI Tutor ↗</button>
+                <button class="btn btn-g" style="font-size:11.5px;padding:6px 12px;" onclick="go('aw')">Write answer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ca-card" onclick="expandCA(this)">
+            <div class="ca-top"><span class="ca-badge india">India</span><div class="ca-title">Brahmaputra floods 2024 — cloudbursts in Arunachal Pradesh trigger sedimentation surge in Assam plains</div></div>
+            <div class="ca-link">Syllabus links: <span>Himalayan rivers → Braided channels → Flood plain dynamics</span></div>
+            <div class="ca-date">July 2024 · 5 concepts tagged</div>
+            <div class="ca-expand">
+              <div class="ca-detail"><b style="color:var(--text)">Geographic significance:</b> Brahmaputra carries one of world's highest sediment loads. Flash floods originate in tectonically unstable Arunachal hills; sedimentation raises riverbed annually. UPSC angle: why Brahmaputra floods every year, relationship to Himalayan glacial melt + monsoon pattern.<br><br><b style="color:var(--text)">Multidimensional angle:</b> GS1 (rivers) + GS3 (disaster management) + GS2 (centre-state relations for flood funds). Rich answer source.</div>
+              <div style="display:flex;gap:7px;margin-top:10px;">
+                <button class="btn btn-teal" style="font-size:11.5px;padding:6px 12px;" onclick="askQ('Explain why Brahmaputra is called a braided river and why it floods every year')">Ask AI Tutor ↗</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ca-card" onclick="expandCA(this)">
+            <div class="ca-top"><span class="ca-badge env">Environment</span><div class="ca-title">Western Ghats ESZ — new endemic species discovered in Agasthyamalai; Kasturirangan Committee recommendations revisited</div></div>
+            <div class="ca-link">Syllabus links: <span>Biogeography → Biodiversity hotspots → Western Ghats conservation</span></div>
+            <div class="ca-date">August 2024 · 4 concepts tagged</div>
+            <div class="ca-expand">
+              <div class="ca-detail"><b style="color:var(--text)">Geographic significance:</b> Western Ghats is one of 8 global biodiversity hotspots in India. Agasthyamalai sub-cluster holds highest endemism. New species discovery strengthens conservation argument against ESZ relaxation.</div>
+            </div>
+          </div>
+
+          <div class="ca-card" onclick="expandCA(this)">
+            <div class="ca-top"><span class="ca-badge econ">Economic</span><div class="ca-title">India's critical mineral reserves — Lithium discovery in J&K and Rajasthan; strategic implications for EV transition</div></div>
+            <div class="ca-link">Syllabus links: <span>Economic Geography → Mineral resources → Strategic minerals</span></div>
+            <div class="ca-date">September 2024 · 6 concepts tagged</div>
+            <div class="ca-expand">
+              <div class="ca-detail"><b style="color:var(--text)">Geographic significance:</b> Lithium found in Reasi, J&K (5.9 MT estimated) and Degana, Rajasthan. UPSC angle: geological context of mineral formation, resource distribution patterns in India, geopolitical implications of critical mineral independence.</div>
+            </div>
+          </div>
+
+          <div class="ca-card" onclick="expandCA(this)">
+            <div class="ca-top"><span class="ca-badge disas">Disaster</span><div class="ca-title">Wayanad landslides 2024 — geological triggers, vulnerability of Western Ghats slopes</div></div>
+            <div class="ca-link">Syllabus links: <span>Geomorphology → Mass wasting → Landslide hazard zones → Western Ghats</span></div>
+            <div class="ca-date">July 2024 · 7 concepts tagged</div>
+            <div class="ca-expand">
+              <div class="ca-detail"><b style="color:var(--text)">Geographic significance:</b> Wayanad landslide (350+ deaths) triggered by intense rainfall on steep laterite slopes. UPSC critical angle: why Western Ghats slopes are especially vulnerable — thin regolith on crystalline rock, high-intensity rainfall, deforestation reducing root binding. This event will appear in UPSC 2025.</div>
+              <div style="display:flex;gap:7px;margin-top:10px;">
+                <button class="btn btn-teal" style="font-size:11.5px;padding:6px 12px;" onclick="askQ('Explain the geological conditions that make Western Ghats slopes vulnerable to landslides. What UPSC points should I include in my answer?')">Ask AI Tutor ↗</button>
+                <button class="btn btn-g" style="font-size:11.5px;padding:6px 12px;" onclick="go('aw')">Write answer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="ph"><span class="pt">This month</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="td" style="background:var(--teal)"></div><div class="tn">Physical</div><div class="tp">8</div></div>
+              <div class="tr"><div class="td" style="background:var(--blue)"></div><div class="tn">India</div><div class="tp">12</div></div>
+              <div class="tr"><div class="td" style="background:var(--green)"></div><div class="tn">Environment</div><div class="tp">7</div></div>
+              <div class="tr"><div class="td" style="background:var(--coral)"></div><div class="tn">Disasters</div><div class="tp">5</div></div>
+              <div class="tr" style="border:none"><div class="td" style="background:var(--gold)"></div><div class="tn">Economic</div><div class="tp">9</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">High-yield topics</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="td" style="background:var(--coral)"></div><div class="tn">Cyclone systems</div><div class="tp" style="color:var(--coral);font-family:var(--fm)">HOT</div></div>
+              <div class="tr"><div class="td" style="background:var(--coral)"></div><div class="tn">Western Ghats</div><div class="tp" style="color:var(--coral);font-family:var(--fm)">HOT</div></div>
+              <div class="tr"><div class="td" style="background:var(--gold)"></div><div class="tn">Critical minerals</div><div class="tp" style="color:var(--gold);font-family:var(--fm)">HIGH</div></div>
+              <div class="tr" style="border:none"><div class="td" style="background:var(--blue)"></div><div class="tn">River systems</div><div class="tp" style="color:var(--blue);font-family:var(--fm)">HIGH</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ PYQ BANK ════ -->
+    <div class="view" id="v-pyq">
+      <div class="pyq-filters">
+        <div class="pf on">All years</div>
+        <div class="pf">2024</div><div class="pf">2023</div><div class="pf">2022</div><div class="pf">2021</div><div class="pf">2019–20</div>
+        <div class="pf">Prelims</div><div class="pf">Mains GS1</div><div class="pf">Optional P1</div><div class="pf">Optional P2</div>
+        <div class="pf">Physical Geo</div><div class="pf">Indian Geo</div><div class="pf">10 marks</div><div class="pf">15 marks</div>
+      </div>
+      <div class="gcol">
+        <div>
+          <div class="pyq-full" onclick="go('aw')">
+            <div class="pq-head"><span class="chip go">2023</span><span class="chip te">GS1 Mains</span><span class="chip bl">15 marks</span><span class="chip">250 words</span></div>
+            <div class="pq-text">Discuss the factors responsible for the formation of the Western Ghats and explain why it is considered a biodiversity hotspot. How have human activities threatened its ecological balance?</div>
+            <div class="pq-footer"><span class="chip vi">Physical Geo</span><span class="chip gr">Biogeography</span><button class="btn btn-g" style="font-size:11px;padding:5px 11px;margin-left:auto;">Practice →</button></div>
+          </div>
+          <div class="pyq-full" onclick="go('aw')">
+            <div class="pq-head"><span class="chip go">2022</span><span class="chip te">GS1 Mains</span><span class="chip bl">10 marks</span></div>
+            <div class="pq-text">Discuss the role of jet streams in determining the onset and withdrawal of the southwest monsoon over India.</div>
+            <div class="pq-footer"><span class="chip te">Climatology</span><button class="btn btn-g" style="font-size:11px;padding:5px 11px;margin-left:auto;">Practice →</button></div>
+          </div>
+          <div class="pyq-full">
+            <div class="pq-head"><span class="chip go">2021</span><span class="chip">Prelims</span></div>
+            <div class="pq-text">With reference to the Indian Ocean Dipole (IOD), sometimes mentioned in the news, which of the following statements is/are correct?<br><br>1. IOD phenomenon is characterised by a difference in sea surface temperature between tropical western and eastern Indian Ocean.<br>2. An IOD phenomenon can influence an El Niño's impact on the monsoons over India.</div>
+            <div class="pq-footer"><span class="chip bl">Oceanography</span><span class="chip te">Climatology</span><button class="btn btn-p" style="font-size:11px;padding:5px 11px;margin-left:auto;" onclick="go('drill')">Attempt →</button></div>
+          </div>
+          <div class="pyq-full" onclick="go('aw')">
+            <div class="pq-head"><span class="chip go">2020</span><span class="chip te">GS1 Mains</span><span class="chip bl">15 marks</span></div>
+            <div class="pq-text">How do ocean currents influence the climate of the coastal regions? Explain with suitable examples.</div>
+            <div class="pq-footer"><span class="chip te">Oceanography</span><span class="chip bl">Climatology</span><button class="btn btn-g" style="font-size:11px;padding:5px 11px;margin-left:auto;">Practice →</button></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="ph"><span class="pt">PYQ statistics</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="tn">Total questions</div><div style="font-family:var(--fm);font-size:13px;color:var(--gold)">624</div></div>
+              <div class="tr"><div class="tn">Attempted</div><div style="font-family:var(--fm);font-size:13px;color:var(--blue)">234</div></div>
+              <div class="tr"><div class="tn">Years covered</div><div style="font-family:var(--fm);font-size:13px;color:var(--text2)">1998–2024</div></div>
+              <div class="tr" style="border:none"><div class="tn">Avg accuracy</div><div style="font-family:var(--fm);font-size:13px;color:var(--green)">68%</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">Most asked topics</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="td" style="background:var(--coral)"></div><div class="tn">Monsoon</div><div class="tbw"><div class="tb" style="width:92%;background:var(--coral)"></div></div><div class="tp">92%</div></div>
+              <div class="tr"><div class="td" style="background:var(--blue)"></div><div class="tn">Rivers</div><div class="tbw"><div class="tb" style="width:85%;background:var(--blue)"></div></div><div class="tp">85%</div></div>
+              <div class="tr"><div class="td" style="background:var(--green)"></div><div class="tn">Western Ghats</div><div class="tbw"><div class="tb" style="width:78%;background:var(--green)"></div></div><div class="tp">78%</div></div>
+              <div class="tr"><div class="td" style="background:var(--gold)"></div><div class="tn">Ocean currents</div><div class="tbw"><div class="tb" style="width:72%;background:var(--gold)"></div></div><div class="tp">72%</div></div>
+              <div class="tr" style="border:none"><div class="td" style="background:var(--violet)"></div><div class="tn">Soils</div><div class="tbw"><div class="tb" style="width:65%;background:var(--violet)"></div></div><div class="tp">65%</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ NOTES ════ -->
+    <div class="view" id="v-notes">
+      <div style="display:grid;grid-template-columns:190px 1fr;gap:14px;">
+        <div class="col">
+          <div class="card">
+            <div class="ph"><span class="pt">Tags</span></div>
+            <div class="pb" style="padding-top:6px;padding-bottom:6px;">
+              <div class="tr"><span style="font-size:12px;color:var(--teal)">Physical Geo</span><div class="tp">8</div></div>
+              <div class="tr"><span style="font-size:12px;color:var(--blue)">Indian Geo</span><div class="tp">7</div></div>
+              <div class="tr"><span style="font-size:12px;color:var(--gold)">Economic</span><div class="tp">4</div></div>
+              <div class="tr"><span style="font-size:12px;color:var(--coral)">CA Links</span><div class="tp">6</div></div>
+              <div class="tr" style="border:none"><span style="font-size:12px;color:var(--text3)">Diagrams</span><div class="tp">3</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="display:flex;gap:9px;margin-bottom:4px;">
+            <div class="search" style="flex:1;"><svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="var(--text3)" stroke-width="1.5"><circle cx="5.5" cy="5.5" r="4"/><path d="M9 9l2.5 2.5"/></svg><input placeholder="Search notes…"></div>
+            <button class="btn btn-p" style="font-size:11.5px;padding:7px 13px;">+ New note</button>
+          </div>
+          <div class="card" style="padding:13px 16px;cursor:pointer;display:flex;gap:13px;" onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:3px;border-radius:2px;background:var(--teal);align-self:stretch;flex-shrink:0;"></div><div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">Monsoon System — Complete Notes</div><div style="font-size:11.5px;color:var(--text3);line-height:1.5;">ITCZ migration, SW & NE monsoons, onset progression, Arabian Sea branch vs Bay of Bengal branch. IOD linkages updated.</div><div style="display:flex;gap:7px;margin-top:7px;"><span class="chip te">Physical Geo</span><span class="chip go">CA Linked</span><span style="font-size:10px;font-family:var(--fm);color:var(--text3);margin-left:auto;">2d ago</span></div></div></div>
+          <div class="card" style="padding:13px 16px;cursor:pointer;display:flex;gap:13px;" onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:3px;border-radius:2px;background:var(--blue);align-self:stretch;flex-shrink:0;"></div><div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">Himalayan vs Peninsular Rivers</div><div style="font-size:11.5px;color:var(--text3);line-height:1.5;">Comparative table — origin, regime, gorges vs deltas. Includes Indus Waters Treaty, inter-state water disputes.</div><div style="display:flex;gap:7px;margin-top:7px;"><span class="chip bl">Indian Geo</span><span class="chip vi">PYQ Linked</span><span style="font-size:10px;font-family:var(--fm);color:var(--text3);margin-left:auto;">5d ago</span></div></div></div>
+          <div class="card" style="padding:13px 16px;cursor:pointer;display:flex;gap:13px;" onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:3px;border-radius:2px;background:var(--gold);align-self:stretch;flex-shrink:0;"></div><div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">Ocean Currents — World Map Notes</div><div style="font-size:11.5px;color:var(--text3);line-height:1.5;">Warm & cold currents, gyres, upwelling zones. El Niño/La Niña linkage. Effect on climate, fishing, fog, deserts.</div><div style="display:flex;gap:7px;margin-top:7px;"><span class="chip go">Physical Geo</span><span style="font-size:10px;font-family:var(--fm);color:var(--text3);margin-left:auto;">1w ago</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ STUDY PLAN ════ -->
+    <div class="view" id="v-plan">
+      <div class="gcol">
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="ph"><span class="pt">April 2026</span><div style="display:flex;gap:7px;"><button class="btn btn-g" style="font-size:11px;padding:4px 10px;">← Prev</button><button class="btn btn-g" style="font-size:11px;padding:4px 10px;">Next →</button></div></div>
+            <div class="pb">
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px;text-align:center;">
+                <div style="font-size:9px;font-family:var(--fm);color:var(--text3);padding:4px 0;">M</div>
+                <div style="font-size:9px;font-family:var(--fm);color:var(--text3);padding:4px 0;">T</div>
+                <div style="font-size:9px;font-family:var(--fm);color:var(--text3);padding:4px 0;">W</div>
+                <div style="font-size:9px;font-family:var(--fm);color:var(--text3);padding:4px 0;">T</div>
+                <div style="font-size:9px;font-family:var(--fm);color:var(--text3);padding:4px 0;">F</div>
+                <div style="font-size:9px;font-family:var(--fm);color:var(--text3);padding:4px 0;">S</div>
+                <div style="font-size:9px;font-family:var(--fm);color:var(--text3);padding:4px 0;">S</div>
+              </div>
+              <div class="cal-grid" id="cal-grid"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">Today's schedule</span><span class="chip go">Sunday · Apr 27</span></div>
+            <div class="pb" style="padding-top:6px;padding-bottom:6px;">
+              <div class="plan-item"><div class="plan-time">6:00 AM</div><div class="plan-dot" style="background:var(--blue)"></div><div class="plan-title">Monsoon System — 20 MCQs (spaced repetition)</div><div class="plan-dur">45 min</div></div>
+              <div class="plan-item"><div class="plan-time">7:00 AM</div><div class="plan-dot" style="background:var(--teal)"></div><div class="plan-title">Write answer: Himalayan vs Peninsular rivers</div><div class="plan-dur">60 min</div></div>
+              <div class="plan-item"><div class="plan-time">3:00 PM</div><div class="plan-dot" style="background:var(--gold)"></div><div class="plan-title">Current Affairs CA geo-linking — 3 articles</div><div class="plan-dur">30 min</div></div>
+              <div class="plan-item" style="border:none"><div class="plan-time">4:30 PM</div><div class="plan-dot" style="background:var(--violet)"></div><div class="plan-title">Map drill — Indian hill stations</div><div class="plan-dur">20 min</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="ph"><span class="pt">14-week plan</span><span class="chip bl">Week 6 of 14</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="td" style="background:var(--green)"></div><div class="tn">Physical Geography</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--green)">Done</div></div>
+              <div class="tr"><div class="td" style="background:var(--blue)"></div><div class="tn">Indian Geography</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--blue)">In progress</div></div>
+              <div class="tr"><div class="td" style="background:var(--text3)"></div><div class="tn">Economic Geography</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">Week 9</div></div>
+              <div class="tr" style="border:none"><div class="td" style="background:var(--text3)"></div><div class="tn">Contemporary Issues</div><div style="font-size:10.5px;font-family:var(--fm);color:var(--text3)">Week 12</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ph"><span class="pt">Exam countdown</span></div>
+            <div class="pb" style="text-align:center;padding:16px 0;">
+              <div style="font-family:var(--fd);font-size:44px;font-weight:300;color:var(--gold);line-height:1;">187</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:4px;">days to UPSC Prelims 2026</div>
+              <div class="div"></div>
+              <div style="display:flex;justify-content:space-around;">
+                <div style="text-align:center;"><div style="font-family:var(--fd);font-size:22px;color:var(--blue)">26</div><div style="font-size:10px;color:var(--text3)">weeks</div></div>
+                <div style="text-align:center;"><div style="font-family:var(--fd);font-size:22px;color:var(--teal)">6</div><div style="font-size:10px;color:var(--text3)">months</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ TEACHER STUDIO ════ -->
+    <div class="view" id="v-teacher">
+      <div class="ts-grid">
+        <div class="ts-card"><div class="ts-icon" style="background:var(--blue3);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--blue)" stroke-width="1.4"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5.5 3V1M10.5 3V1M2 6.5h12"/></svg></div><div class="ts-title">Create Assignment</div><div class="ts-sub">Build MCQ + Mains sets, assign to batches</div></div>
+        <div class="ts-card"><div class="ts-icon" style="background:var(--teal2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--teal)" stroke-width="1.4"><path d="M2 12l3-4 3 2 3-4 3 4"/><rect x="1" y="1" width="14" height="14" rx="1.5"/></svg></div><div class="ts-title">Student Analytics</div><div class="ts-sub">Progress, weak areas, time-on-task</div></div>
+        <div class="ts-card"><div class="ts-icon" style="background:var(--gold2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--gold)" stroke-width="1.4"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 6h6M5 9h4"/></svg></div><div class="ts-title">Answer Review</div><div class="ts-sub">Grade & annotate student answers with AI assist</div></div>
+        <div class="ts-card"><div class="ts-icon" style="background:rgba(123,92,245,.1);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--violet)" stroke-width="1.4"><circle cx="6" cy="5" r="2.5"/><path d="M2 13c0-2.2 1.8-4 4-4s4 1.8 4 4"/><path d="M10.5 6l2 2 2-4"/></svg></div><div class="ts-title">Batch Management</div><div class="ts-sub">Create batches, manage enrolment</div></div>
+        <div class="ts-card"><div class="ts-icon" style="background:var(--coral2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--coral)" stroke-width="1.4"><path d="M2 2h12v12H2V2z"/><path d="M6 6l4 4M10 6l-4 4"/></svg></div><div class="ts-title">Live Test</div><div class="ts-sub">Real-time proctored mock tests</div></div>
+        <div class="ts-card"><div class="ts-icon" style="background:var(--green2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--green)" stroke-width="1.4"><path d="M3 2h7l4 4v8H3V2z"/><path d="M10 2v4h4"/></svg></div><div class="ts-title">Content Library</div><div class="ts-sub">Your custom notes, diagrams, questions</div></div>
+      </div>
+      <div class="gcol">
+        <div class="card">
+          <div class="ph"><span class="pt">Students — Batch A (GS Geography)</span><span class="chip bl">24 students</span></div>
+          <div class="pb" style="padding-top:6px;padding-bottom:6px;">
+            <div class="student-row"><div class="student-av" style="background:linear-gradient(135deg,var(--blue),var(--violet))">AM</div><div style="flex:1;"><div class="student-name">Ananya Mishra</div><div class="student-prog">78% coverage · Last active 2h ago<div class="prog-mini"><div class="prog-fill" style="width:78%;background:var(--green)"></div></div></div></div><span class="chip gr">On track</span></div>
+            <div class="student-row"><div class="student-av" style="background:linear-gradient(135deg,var(--teal),var(--green))">RS</div><div style="flex:1;"><div class="student-name">Rajesh Singh</div><div class="student-prog">52% coverage · Last active 1d ago<div class="prog-mini"><div class="prog-fill" style="width:52%;background:var(--gold)"></div></div></div></div><span class="chip go">Moderate</span></div>
+            <div class="student-row"><div class="student-av" style="background:linear-gradient(135deg,var(--coral),var(--amber))">PK</div><div style="flex:1;"><div class="student-name">Priya Kumari</div><div class="student-prog">31% coverage · Last active 3d ago<div class="prog-mini"><div class="prog-fill" style="width:31%;background:var(--coral)"></div></div></div></div><span class="chip co">At risk</span></div>
+            <div class="student-row" style="border:none"><div class="student-av" style="background:linear-gradient(135deg,var(--gold),var(--amber))">VT</div><div style="flex:1;"><div class="student-name">Vikram Thakur</div><div class="student-prog">89% coverage · Last active today<div class="prog-mini"><div class="prog-fill" style="width:89%;background:var(--teal)"></div></div></div></div><span class="chip te">Excellent</span></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="ph"><span class="pt">Batch stats</span></div>
+            <div class="pb" style="padding-top:4px;padding-bottom:4px;">
+              <div class="tr"><div class="tn">Avg coverage</div><div style="font-family:var(--fm);color:var(--gold)">62%</div></div>
+              <div class="tr"><div class="tn">Avg accuracy</div><div style="font-family:var(--fm);color:var(--blue)">67%</div></div>
+              <div class="tr"><div class="tn">Pending answers</div><div style="font-family:var(--fm);color:var(--coral)">14</div></div>
+              <div class="tr" style="border:none"><div class="tn">Next test</div><div style="font-family:var(--fm);color:var(--teal)">Apr 30</div></div>
+            </div>
+          </div>
+          <button class="btn btn-p" style="width:100%;justify-content:center;padding:10px;">Create assignment →</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── NAVIGATION ──
+const views = {dash:'v-dash',atlas:'v-atlas',drill:'v-drill',aw:'v-aw',chat:'v-chat',ca:'v-ca',pyq:'v-pyq',notes:'v-notes',plan:'v-plan',teacher:'v-teacher'};
+const titles = {dash:['Good morning, <span>Rohit</span>','Sunday · 3 tasks pending · Exam in <b style="color:var(--gold)">187 days</b>'],atlas:['Interactive <span>Atlas</span>','Click any region · Concepts, PYQs, current affairs linked'],drill:['Prelims <span>Drill</span>','Adaptive · Spaced repetition · 12 due today'],aw:['Answer <span>Writing</span>','AI-evaluated · UPSC rubric · Instant feedback'],chat:['AI <span>Tutor</span>','Geography expert · Syllabus-aware · Powered by Claude'],ca:['Current <span>Affairs</span>','Geo-lens · Syllabus linked · Updated daily'],pyq:['PYQ <span>Bank</span>','1998–2024 · Prelims + Mains · 624 questions'],notes:['My <span>Notes</span>','Smart linked · Export PDF · 23 saved'],plan:['Study <span>Plan</span>','14-week adaptive plan · 187 days to exam'],teacher:['Teacher <span>Studio</span>','24 students · Assignments · Analytics']};
+
+function go(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById(views[id]).classList.add('on');
+  const navMap={dash:0,atlas:1,drill:2,aw:3,chat:4,ca:5,pyq:6,notes:7,plan:8,teacher:9};
+  const nis=document.querySelectorAll('.ni');
+  if(navMap[id]!==undefined) nis[navMap[id]].classList.add('on');
+  if(titles[id]){document.getElementById('pg-title').innerHTML=titles[id][0];document.getElementById('pg-sub').innerHTML=titles[id][1];}
+}
+
+// ── MCQ ──
+function pickOpt(el,correct){
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');el.dataset.c=correct;
+}
+function submitQ(){
+  const sel=document.querySelector('.opt.sel');if(!sel)return;
+  document.querySelectorAll('.opt').forEach(o=>{
+    if(o.dataset.c==='true')o.classList.add('ok');
+    else if(o.classList.contains('sel'))o.classList.add('bad');
+    o.style.pointerEvents='none';
+  });
+  document.getElementById('exp').classList.add('on');
+  const btn=document.getElementById('sub-btn');btn.textContent='Next →';btn.onclick=skipQ;
+}
+function skipQ(){
+  document.querySelectorAll('.opt').forEach(o=>{o.classList.remove('sel','ok','bad');o.style.pointerEvents='';delete o.dataset.c;});
+  document.getElementById('exp').classList.remove('on');
+  const btn=document.getElementById('sub-btn');btn.textContent='Submit answer';btn.onclick=submitQ;
+}
+
+// ── WORD COUNT ──
+function wcnt(el){
+  const w=el.value.trim().split(/\s+/).filter(x=>x).length;
+  const n=document.getElementById('wc-n');n.textContent=w;
+  n.style.color=w>250?'var(--coral)':w>200?'var(--gold)':'var(--text2)';
+}
+
+// ── AI ANSWER EVAL (real Claude API) ──
+async function evalAnswer(){
+  const text=document.getElementById('aw-ta').value.trim();
+  if(text.length<20){
+    document.getElementById('aw-ta').style.outline='2px solid var(--coral)';
+    setTimeout(()=>document.getElementById('aw-ta').style.outline='',2000);
+    return;
+  }
+  const btn=document.getElementById('ai-eval-btn');
+  btn.textContent='⟳ Evaluating with AI…';btn.disabled=true;
+
+  const prompt=`You are an expert UPSC Mains examiner evaluating a Geography answer.
+
+Question: "Examine the factors responsible for the formation of the Western Ghats and discuss their significance as a biodiversity hotspot. How has human activity threatened this fragile ecosystem?"
+
+Marks: 15 | Word limit: 250 | Subject: GS Paper 1 — Geography
+
+Student's answer:
+"""
+${text}
+"""
+
+Evaluate on these 5 criteria (score each out of 10):
+1. Introduction quality (clear opening, definition, geographical context)
+2. Conceptual accuracy (geological formation facts, biodiversity data accuracy)
+3. Structure & flow (logical paragraphing, transitions, answer format)
+4. Multidimensional analysis (linking physical geo to ecology, economy, policy)
+5. Conclusion strength (policy recommendations, forward-looking statement)
+
+Respond ONLY as valid JSON, no markdown, no extra text:
+{"intro":7,"accuracy":8,"structure":6,"multi":5,"conclusion":7,"overall":6.6,"feedback":"2-3 sentences of specific feedback highlighting the strongest point and the single most important improvement needed. Mention Kasturirangan Committee if not mentioned. Keep under 80 words.","strength":"One specific strength in the answer","improve":"One specific improvement to make"}`;
+
+  try {
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const raw=data.content.find(b=>b.type==='text')?.text||'{}';
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const j=JSON.parse(clean);
+
+    const scores=[j.intro,j.accuracy,j.structure,j.multi,j.conclusion];
+    scores.forEach((s,i)=>{
+      document.getElementById('rs'+(i+1)).textContent=s+'/10';
+      document.getElementById('rb'+(i+1)).style.width=(s*10)+'%';
+    });
+    document.getElementById('score-box').style.display='block';
+    document.getElementById('score-v').textContent=j.overall||'—';
+    document.getElementById('fb-box').style.display='block';
+    document.getElementById('fb-text').innerHTML=
+      `<b style="color:var(--green)">✓ Strength:</b> ${j.strength||'—'}<br><br>`+
+      `<b style="color:var(--coral)">↑ Improve:</b> ${j.improve||'—'}<br><br>`+
+      `<span style="color:var(--text2)">${j.feedback||'—'}</span>`;
+    btn.textContent='✦ Re-evaluate';btn.disabled=false;
+  } catch(e) {
+    // Fallback demo scores if API unavailable
+    const demo=[7,8,6,5,7];
+    demo.forEach((s,i)=>{document.getElementById('rs'+(i+1)).textContent=s+'/10';document.getElementById('rb'+(i+1)).style.width=(s*10)+'%';});
+    document.getElementById('score-box').style.display='block';document.getElementById('score-v').textContent='6.6';
+    document.getElementById('fb-box').style.display='block';
+    document.getElementById('fb-text').innerHTML='<b style="color:var(--green)">✓ Strength:</b> Good coverage of geological formation and biodiversity significance.<br><br><b style="color:var(--coral)">↑ Improve:</b> Add Kasturirangan Committee recommendations in the conclusion for policy dimension.<br><br><span style="color:var(--text2)">The answer covers physical formation well but needs stronger multidimensional analysis linking ecology to livelihoods and policy.</span>';
+    btn.textContent='✦ Re-evaluate';btn.disabled=false;
+  }
+}
+
+// ── AI CHAT (real Claude API) ──
+let chatHistory=[];
+
+async function sendChat(){
+  const inp=document.getElementById('chat-in');
+  const q=inp.value.trim();if(!q)return;
+  inp.value='';
+  addMsg('user',q);
+  chatHistory.push({role:'user',content:q});
+
+  const typing=addTyping();
+
+  const sys=`You are an expert UPSC Geography tutor with deep knowledge of:
+- Indian Geography (physical, economic, social)
+- World Physical Geography (geomorphology, climatology, oceanography, biogeography)
+- UPSC syllabus patterns and Previous Year Questions (PYQs)
+- Current affairs linked to geography (2023-2025)
+
+The student's weak areas are: ocean currents, soil types, jet streams.
+
+Rules:
+- Give exam-focused, structured answers
+- Always connect concepts to UPSC PYQ patterns where relevant
+- Use bullet points for clarity
+- Keep responses concise but complete (150-250 words usually)
+- End with: "📌 PYQ link: [mention a relevant past question if you know one]" or a study tip
+- Use bold for key terms`;
+
+  try {
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sys,messages:chatHistory})
+    });
+    const data=await res.json();
+    const reply=data.content.find(b=>b.type==='text')?.text||'Sorry, I could not process that. Please try again.';
+    typing.remove();
+    chatHistory.push({role:'assistant',content:reply});
+    addMsg('ai',reply.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>'));
+  } catch(e){
+    typing.remove();
+    addMsg('ai','<b>Network note:</b> The API call requires a connection. In production, answers would stream in here. For now, here\'s a quick answer:<br><br>The Indian monsoon is driven by differential heating between land and sea. The <b>subtropical jet stream</b> plays a crucial role — its northward shift past the Himalayas triggers the sudden burst of southwest monsoon. The <b>ITCZ migration</b> and Arabian Sea low-pressure development also contribute.<br><br>📌 PYQ link: UPSC 2022 asked about jet streams and monsoon onset.');
+  }
+}
+
+function addMsg(role,text){
+  const msgs=document.getElementById('chat-msgs');
+  const d=document.createElement('div');
+  d.className='msg '+role;
+  const initials=role==='ai'?'G':'RA';
+  const avClass=role==='ai'?'ai-av':'usr-av';
+  d.innerHTML=`<div class="msg-av ${avClass}">${initials}</div><div class="msg-bubble">${text}</div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+  return d;
+}
+
+function addTyping(){
+  const msgs=document.getElementById('chat-msgs');
+  const d=document.createElement('div');d.className='msg ai';
+  d.innerHTML=`<div class="msg-av ai-av">G</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+  return d;
+}
+
+function askQ(q){
+  go('chat');
+  setTimeout(()=>{
+    document.getElementById('chat-in').value=q;
+    sendChat();
+  },150);
+}
+
+// ── CA EXPAND ──
+function expandCA(el){
+  const exp=el.querySelector('.ca-expand');
+  exp.classList.toggle('on');
+}
+
+// ── REGION DATA ──
+const regions={
+  himalaya:{name:'Himalayan Region',color:'var(--gold)',sub:'12 PYQs · 4 major sub-regions',
+    facts:'Formed by collision of Indian and Eurasian plates (Cenozoic era). Three parallel ranges: Himadri, Himachal, Siwaliks. Young fold mountains with ongoing tectonic activity — highest seismic zone.',
+    sig:'Source of perennial Himalayan rivers (Indus, Ganga, Brahmaputra). Orographic rainfall feeds IGP agriculture. Climate barrier — prevents cold Arctic winds. Snow and glacier reservoir.',
+    pyqs:[{yr:'2023',q:'Discuss the role of Himalayas in the climate of India.'},{yr:'2019',q:'Why are Himalayan rivers perennial while Peninsular rivers are seasonal?'},{yr:'2016',q:'What are young fold mountains? Explain with examples.'}]},
+  igp:{name:'Indo-Gangetic Plain',color:'var(--blue)',sub:'18 PYQs · Most fertile region',
+    facts:'Formed by alluvial deposits of Himalayan rivers over millions of years. Stretches 2,400 km from Punjab to Bangladesh. Divided into Bhabar, Terai, Bhangar, Khadar zones.',
+    sig:'India\'s food bowl — wheat, rice, sugarcane cultivation. Densest population belt. Major industrial corridor (Delhi-Mumbai, Delhi-Kolkata). Critical groundwater resource (though depleting).',
+    pyqs:[{yr:'2022',q:'Explain the formation and significance of the Indo-Gangetic plain.'},{yr:'2018',q:'Why is the Indo-Gangetic plain called the heartland of India?'}]},
+  wghats:{name:'Western Ghats',color:'var(--green)',sub:'9 PYQs · UNESCO World Heritage',
+    facts:'Ancient block mountains (not fold mountains). Run parallel to west coast for ~1,600 km. Highest point: Anamudi (2,695m). Act as watershed between Arabian Sea and Deccan Plateau rivers.',
+    sig:'One of 8 global biodiversity hotspots. 5,000+ flowering plant species, 139 mammal species. UNESCO World Heritage Site (39 sites). Source of major Peninsular rivers (Krishna, Godavari, Kaveri).',
+    pyqs:[{yr:'2023',q:'Examine Western Ghats as a biodiversity hotspot and threats to it.'},{yr:'2020',q:'Distinguish between Eastern and Western Ghats in terms of formation and characteristics.'},{yr:'2015',q:'Gadgil Committee vs Kasturirangan Committee — compare recommendations.'}]},
+  deccan:{name:'Deccan Plateau',color:'var(--coral)',sub:'14 PYQs · Ancient landscape',
+    facts:'One of world\'s oldest landmasses (Gondwanaland fragment). Trap lava covered much of central India — gives rise to black cotton soil (Regur). Slopes eastward — rivers flow east to Bay of Bengal.',
+    sig:'Rich in minerals — coal (Jharkhand), iron ore (Odisha), manganese, bauxite. Regur soil ideal for cotton cultivation. Low seismic activity — stable shield region.',
+    pyqs:[{yr:'2021',q:'What is Deccan Trap? Explain its geographical and economic significance.'},{yr:'2017',q:'Explain the eastward slope of Deccan Plateau and its effect on river drainage.'}]},
+  coast:{name:'Coastal Plains',color:'var(--violet)',sub:'7 PYQs · Dual coasts',
+    facts:'East coast (Coromandel) — broader, formed by river deltas (Krishna, Godavari, Kaveri). West coast (Konkan, Malabar) — narrow, steep, rocky, formed by submergence. Chilika, Pulicat, Kolleru — coastal lagoons.',
+    sig:'Major fishing grounds. Ports and trade. Tourism. Mangrove ecosystems. Prone to cyclones (east coast more vulnerable). Salt production on both coasts.',
+    pyqs:[{yr:'2020',q:'Compare East and West coasts of India in terms of formation, width and economic significance.'},{yr:'2018',q:'What are coastal lagoons? Describe their formation and ecological significance.'}]},
+  thar:{name:'Thar Desert',color:'var(--amber)',sub:'6 PYQs · Cold desert paradox',
+    facts:'17th largest desert in the world. Sandy with barchans, seifs, loess deposits. Receives <100mm rainfall. Luni river (saline) flows through it. Hot days, cold nights (high diurnal range).',
+    sig:'Indira Gandhi Canal — transforms arid land for agriculture. Strategic importance — India-Pakistan border. Wind energy potential — one of best wind corridors. Unique desert ecosystem.',
+    pyqs:[{yr:'2019',q:'Why is the Thar Desert located in western India? Explain the meteorological reasons.'},{yr:'2016',q:'Discuss the significance of Indira Gandhi Canal in transforming the Thar Desert region.'}]}
+};
+
+function showRegion(id){
+  const r=regions[id];if(!r)return;
+  const pyqHtml=r.pyqs.map(p=>`<div class="pyq-item"><div class="pyq-yr">${p.yr}</div>${p.q}</div>`).join('');
+  document.getElementById('region-card').innerHTML=`
+    <div class="ri-head">
+      <div style="font-size:10px;color:var(--text3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;">REGION</div>
+      <div class="ri-name" style="color:${r.color}">${r.name}</div>
+      <div class="ri-sub">${r.sub}</div>
+    </div>
+    <div class="ri-body">
+      <div class="ri-sec"><div class="ri-sec-t">Formation</div><div class="ri-fact">${r.facts}</div></div>
+      <div class="ri-sec"><div class="ri-sec-t">Significance</div><div class="ri-fact">${r.sig}</div></div>
+      <div class="ri-sec"><div class="ri-sec-t">UPSC PYQs</div>${pyqHtml}</div>
+      <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap;">
+        <button class="btn btn-teal" style="font-size:11.5px;padding:7px 12px;" onclick="askQ('Tell me about ${r.name} for UPSC — key points, PYQ angles, current affairs')">Ask AI Tutor ↗</button>
+        <button class="btn btn-g" style="font-size:11.5px;padding:7px 12px;" onclick="go('aw')">Write answer</button>
+      </div>
+    </div>`;
+}
+
+// ── FILTER TABS ──
+document.querySelectorAll('.pf').forEach(el=>{
+  el.addEventListener('click',function(){
+    const group=this.closest('div');
+    group.querySelectorAll('.pf').forEach(f=>f.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+
+// ── CALENDAR ──
+function buildCal(){
+  const cal=document.getElementById('cal-grid');if(!cal)return;
+  const today=23;
+  for(let d=1;d<=30;d++){
+    const el=document.createElement('div');
+    el.className='cal-day'+(d===today?' today':d<today&&Math.random()>.25?' done':d<today?' partial':'');
+    el.innerHTML=`<div class="cd-num">${d}</div><div class="cd-day">${['M','T','W','T','F','S','S'][(d+6)%7]}</div><div class="cd-dot"></div>`;
+    cal.appendChild(el);
+  }
+}
+
+buildCal();
+</script>
+</body>
+</html>
